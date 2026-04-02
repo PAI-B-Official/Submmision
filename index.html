@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="id" class="selection:bg-emerald-200 dark:selection:bg-emerald-700">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tugas Kuliah PAI</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Poppins', 'sans-serif'] },
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        /* Animations */
+        @keyframes blob {
+            0% { transform: translate(0px, 0px) scale(1); }
+            33% { transform: translate(30px, -50px) scale(1.1); }
+            66% { transform: translate(-20px, 20px) scale(0.9); }
+            100% { transform: translate(0px, 0px) scale(1); }
+        }
+        .animate-blob { animation: blob 7s infinite; }
+        .animation-delay-2000 { animation-delay: 2s; }
+        .animation-delay-4000 { animation-delay: 4s; }
+
+        /* Transisi Progress Bar */
+        .progress-transition {
+            transition: width 0.3s ease-out;
+        }
+
+        /* Menghilangkan panah atas/bawah di input type number */
+        input[type="number"]::-webkit-inner-spin-button,
+        input[type="number"]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        input[type="number"] {
+            -moz-appearance: textfield;
+        }
+    </style>
+</head>
+<body class="relative min-h-screen text-gray-800 dark:text-gray-100 bg-gradient-to-br from-emerald-100 via-white to-emerald-50 dark:from-slate-950 dark:via-slate-900 dark:to-emerald-950 transition-colors duration-500 overflow-x-hidden flex flex-col justify-center items-center p-4 font-sans">
+
+    <!-- BACKGROUND DECORATION BLUR (GLASSMORPHISM) -->
+    <div class="fixed top-0 left-10 w-72 h-72 bg-emerald-300/40 dark:bg-emerald-700/20 rounded-full mix-blend-multiply dark:mix-blend-lighten filter blur-3xl opacity-70 animate-blob pointer-events-none"></div>
+    <div class="fixed top-0 right-10 w-72 h-72 bg-emerald-200/50 dark:bg-emerald-900/30 rounded-full mix-blend-multiply dark:mix-blend-lighten filter blur-3xl opacity-70 animate-blob animation-delay-2000 pointer-events-none"></div>
+    <div class="fixed -bottom-8 left-20 w-72 h-72 bg-emerald-100/60 dark:bg-emerald-800/20 rounded-full mix-blend-multiply dark:mix-blend-lighten filter blur-3xl opacity-70 animate-blob animation-delay-4000 pointer-events-none"></div>
+
+    <!-- Main Container -->
+    <main class="w-full max-w-lg mx-auto bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl shadow-2xl sm:rounded-2xl relative z-10 flex flex-col border border-white/50 dark:border-slate-700/50">
+        
+        <!-- HEADER -->
+        <header class="bg-emerald-700 dark:bg-emerald-800/90 text-white p-4 sm:p-5 backdrop-blur-sm sm:rounded-t-2xl transition-all duration-300">
+            <div class="flex items-center justify-between gap-2">
+                <div class="flex items-center gap-3 sm:gap-4 min-w-0">
+                    <div class="w-10 h-10 sm:w-12 sm:h-12 bg-white rounded-full flex items-center justify-center shadow-md shrink-0 border-2 border-emerald-100 dark:border-emerald-600">
+                        <!-- Cloud Upload Icon -->
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-emerald-700 dark:text-emerald-600 w-5 h-5 sm:w-6 sm:h-6"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></svg>
+                    </div>
+                    <div class="min-w-0">
+                        <h1 class="text-sm sm:text-lg font-bold tracking-wide leading-tight truncate">Unggah Tugas PAI B</h1>
+                        <p class="mt-0.5 text-emerald-100 text-[10px] sm:text-xs">
+                            Silahkan upload seluruh tugas disini.
+                        </p>
+                    </div>
+                </div>
+                <div class="flex items-center shrink-0">
+                    <button onclick="toggleTheme()" class="bg-emerald-600 dark:bg-emerald-700 p-2 sm:p-2.5 rounded-full hover:bg-emerald-500 dark:hover:bg-emerald-600 text-white transition shadow-sm border border-emerald-500 dark:border-emerald-600 active:scale-95" title="Ganti Tema">
+                        <span id="theme-icon-light" class="hidden"><svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 sm:w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></span>
+                        <span id="theme-icon-dark"><svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 sm:w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></span>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <div class="p-4 sm:p-6 flex flex-col gap-4">
+            
+            <!-- AREA UNGGAH FILE -->
+            <div id="dropzone" class="relative border-2 border-dashed rounded-xl p-8 flex flex-col items-center justify-center text-center cursor-pointer transition-all duration-300 border-gray-300 dark:border-slate-500 bg-white/50 dark:bg-slate-800/50 hover:bg-emerald-50/50 dark:hover:bg-slate-700/50 shadow-sm backdrop-blur-sm">
+                <input type="file" id="file-input" class="hidden" accept="*/*" multiple />
+                
+                <svg class="w-12 h-12 mb-4 text-emerald-400 dark:text-emerald-500 transition-colors" id="dropzone-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="16 16 12 12 8 16"></polyline>
+                    <line x1="12" y1="12" x2="12" y2="21"></line>
+                    <path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"></path>
+                    <polyline points="16 16 12 12 8 16"></polyline>
+                </svg>
+
+                <p class="text-sm sm:text-base font-bold text-gray-700 dark:text-gray-200 mb-1">
+                    Silahkan Unggah File Disini
+                </p>
+                <p class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mb-4">
+                    Klik atau Geser file kesini
+                </p>
+                
+                <div class="flex flex-wrap justify-center gap-3 sm:gap-4 text-[10px] sm:text-xs font-medium text-gray-500 dark:text-gray-400 mt-2 bg-white/60 dark:bg-slate-900/40 py-1.5 px-3 rounded-lg border border-gray-100 dark:border-slate-700">
+                    <div class="flex items-center gap-1.5">
+                        <svg class="w-3.5 h-3.5 text-blue-500 dark:text-blue-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+                        <span>Dokumen (50MB)</span>
+                    </div>
+                    <div class="flex items-center gap-1.5 border-l border-gray-300 dark:border-slate-600 pl-3 sm:pl-4">
+                        <svg class="w-3.5 h-3.5 text-purple-500 dark:text-purple-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 7l-7 5 7 5V7z"></path><rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect></svg>
+                        <span>Video (150MB)</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pesan Error -->
+            <div id="error-container" class="hidden p-3 sm:p-4 bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800/50 rounded-xl flex items-start gap-3 backdrop-blur-sm shadow-sm transition-all duration-300">
+                <svg class="w-5 h-5 text-red-500 dark:text-red-400 flex-shrink-0 mt-0.5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                <p id="error-message" class="text-xs sm:text-sm text-red-600 dark:text-red-300 leading-relaxed font-medium"></p>
+            </div>
+
+            <!-- Area Manajemen File -->
+            <div id="file-manager" class="hidden flex flex-col gap-4 transition-all duration-300">
+                <div id="file-list" class="flex flex-col gap-3 max-h-64 overflow-y-auto pr-1"></div>
+
+                <!-- Pesan Sukses -->
+                <div id="success-message" class="hidden mt-1 p-3 sm:p-4 bg-emerald-50 dark:bg-emerald-900/30 border border-emerald-200 dark:border-emerald-800/50 rounded-xl flex items-center gap-3 backdrop-blur-sm shadow-sm transition-all duration-300">
+                    <svg class="w-5 h-5 text-emerald-500 dark:text-emerald-400 shrink-0" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                    <p class="text-xs sm:text-sm font-semibold text-emerald-700 dark:text-emerald-300">Semua file berhasil dikirim dan tersimpan!</p>
+                </div>
+            </div>
+
+            <!-- INPUT FORM GROUP: NAMA & NIM -->
+            <div class="flex gap-3">
+                <div class="flex-[2] sm:flex-[3] flex flex-col gap-1.5">
+                    <label for="nama-lengkap" class="text-sm font-semibold text-gray-700 dark:text-gray-300">Nama Lengkap <span class="text-red-500">*</span></label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
+                            <svg class="h-5 w-5 text-gray-400 dark:text-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                        </div>
+                        <input type="text" id="nama-lengkap" placeholder="Masukkan nama..." class="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-300 dark:border-slate-600 bg-white/50 dark:bg-slate-800/50 text-gray-800 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all backdrop-blur-sm shadow-sm" required>
+                    </div>
+                </div>
+
+                <div class="flex-[1] flex flex-col gap-1.5">
+                    <label for="angka-input" class="text-sm font-semibold text-gray-700 dark:text-gray-300">NIM <span class="text-red-500">*</span></label>
+                    <div class="relative">
+                        <input type="number" id="angka-input" placeholder="1234567" class="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-slate-600 bg-white/50 dark:bg-slate-800/50 text-gray-800 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all backdrop-blur-sm shadow-sm" required>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Input Mata Kuliah & Tombol Cari -->
+            <div class="flex items-end gap-2">
+                <div class="flex-1 flex flex-col gap-1.5">
+                    <label for="mata-pelajaran" class="text-sm font-semibold text-gray-700 dark:text-gray-300">Mata Kuliah <span class="text-red-500">*</span></label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
+                            <svg class="h-5 w-5 text-gray-400 dark:text-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"></path></svg>
+                        </div>
+                        <input type="text" id="mata-pelajaran" placeholder="Masukkan Mata Kuliah..." class="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-300 dark:border-slate-600 bg-white/50 dark:bg-slate-800/50 text-gray-800 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all backdrop-blur-sm shadow-sm" required>
+                    </div>
+                </div>
+                <button id="open-search-btn" type="button" class="shrink-0 w-12 h-12 flex items-center justify-center bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl shadow-md transition-all active:scale-95 border border-transparent" title="Cari Data Riwayat">
+                    <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                </button>
+            </div>
+
+            <!-- Tombol Aksi -->
+            <div id="action-buttons" class="mt-2 flex gap-3">
+                <button id="add-more-btn" class="hidden flex-1 bg-white dark:bg-slate-800 hover:bg-emerald-50 dark:hover:bg-slate-700 text-emerald-600 dark:text-emerald-400 font-bold py-3 sm:py-3.5 rounded-xl shadow-sm border border-emerald-200 dark:border-emerald-800/50 transition active:scale-95 flex items-center justify-center gap-2 text-sm sm:text-base">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                    <span class="hidden sm:inline">Tambah</span> File
+                </button>
+                
+                <button id="upload-all-btn" class="flex-1 bg-emerald-600 dark:bg-emerald-600 hover:bg-emerald-700 dark:hover:bg-emerald-500 text-white font-bold py-3 sm:py-3.5 rounded-xl shadow-md transition active:scale-95 flex items-center justify-center gap-2 text-sm sm:text-base border border-transparent">
+                    <span id="upload-btn-text">Kirim</span>
+                    <svg id="upload-icon" xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 sm:w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                    <svg id="upload-spinner" class="hidden animate-spin h-4 w-4 sm:h-5 sm:w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                </button>
+
+                <button id="reset-all-btn" class="hidden flex-1 bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 sm:py-3.5 rounded-xl shadow-md transition active:scale-95 items-center justify-center gap-2 text-sm sm:text-base w-full">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 sm:w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></svg>
+                    Mulai Baru
+                </button>
+            </div>
+
+            <!-- Riwayat Pengumpulan Tugas -->
+            <div class="flex flex-col gap-2 mt-4 pt-4 border-t border-gray-100 dark:border-slate-700">
+                <div class="flex items-center justify-between">
+                    <label class="text-sm font-semibold text-gray-700 dark:text-gray-300">Riwayat Tugas Terkirim</label>
+                    <button id="refresh-history-btn" type="button" class="text-[10px] sm:text-xs text-emerald-600 dark:text-emerald-400 hover:underline flex items-center gap-1 font-medium transition-colors" title="Segarkan Riwayat">
+                        <svg class="w-3.5 h-3.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg> 
+                        Segarkan
+                    </button>
+                </div>
+                <div id="history-container" class="bg-white/40 dark:bg-slate-800/40 border border-gray-200 dark:border-slate-700 rounded-xl p-2.5 max-h-48 overflow-y-auto flex flex-col gap-2 backdrop-blur-sm shadow-inner transition-all">
+                    <div class="text-center text-xs text-gray-500 dark:text-gray-400 py-6">Riwayat belum dimuat.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- FOOTER -->
+        <footer class="text-center pb-5 text-gray-400 dark:text-gray-500 text-[10px] sm:text-xs">
+            <p>&copy; PAI B Official 2025</p>
+        </footer>
+
+        <!-- MODAL PRATINJAU -->
+        <div id="preview-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-slate-900/80 backdrop-blur-sm opacity-0 transition-opacity duration-300">
+            <div class="relative w-full max-w-4xl max-h-[90vh] bg-white dark:bg-slate-900 rounded-2xl shadow-2xl flex flex-col overflow-hidden scale-95 transition-transform duration-300" id="preview-modal-panel">
+                <div class="flex items-center justify-between p-4 border-b border-gray-200 dark:border-slate-700 bg-gray-50 dark:bg-slate-800 shrink-0">
+                    <h3 id="preview-modal-title" class="font-bold text-gray-800 dark:text-gray-200 truncate pr-4 text-sm sm:text-base">Pratinjau File</h3>
+                    <button onclick="closePreviewModal()" class="p-2 text-gray-500 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/30 rounded-full transition-colors" title="Tutup">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                    </button>
+                </div>
+                <div id="preview-modal-content" class="flex-1 overflow-auto p-4 flex items-center justify-center bg-gray-100/50 dark:bg-black/50 min-h-[300px] sm:min-h-[400px]"></div>
+            </div>
+        </div>
+
+        <!-- MODAL PENCARIAN -->
+        <div id="search-modal" class="hidden fixed inset-0 z-[60] flex items-center justify-center p-4 sm:p-6 bg-slate-900/80 backdrop-blur-sm opacity-0 transition-opacity duration-300">
+            <div class="relative w-full max-w-2xl bg-white dark:bg-slate-900 rounded-2xl shadow-2xl flex flex-col overflow-hidden scale-95 transition-transform duration-300" id="search-modal-panel">
+                <div class="flex items-center justify-between p-4 border-b border-gray-200 dark:border-slate-700 bg-gray-50 dark:bg-slate-800 shrink-0">
+                    <h3 class="font-bold text-gray-800 dark:text-gray-200 flex items-center gap-2 text-sm sm:text-base">
+                        <svg class="w-5 h-5 text-emerald-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg> 
+                        Pencarian Lanjutan
+                    </h3>
+                    <button onclick="closeSearchModal()" class="p-2 text-gray-500 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/30 rounded-full transition-colors" title="Tutup">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                    </button>
+                </div>
+                <div class="p-4 flex flex-col gap-3 bg-white dark:bg-slate-900 shrink-0">
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <svg class="h-4 w-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+                        </div>
+                        <input type="text" id="search-keyword" placeholder="Cari berdasarkan nama, file, atau mata pelajaran..." class="w-full pl-9 pr-3 py-2.5 text-sm rounded-lg border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-gray-800 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all">
+                    </div>
+                    <div class="flex flex-col sm:flex-row gap-3">
+                        <div class="flex-1 flex flex-col gap-1.5">
+                            <label class="text-[10px] sm:text-xs font-semibold text-gray-600 dark:text-gray-400">Mulai Tanggal/Waktu</label>
+                            <input type="datetime-local" id="search-start-date" class="w-full px-3 py-2.5 text-sm rounded-lg border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-gray-800 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all">
+                        </div>
+                        <div class="flex-1 flex flex-col gap-1.5">
+                            <label class="text-[10px] sm:text-xs font-semibold text-gray-600 dark:text-gray-400">Sampai Tanggal/Waktu</label>
+                            <input type="datetime-local" id="search-end-date" class="w-full px-3 py-2.5 text-sm rounded-lg border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-gray-800 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all">
+                        </div>
+                    </div>
+                </div>
+                <div class="p-3 sm:p-4 bg-gray-50 dark:bg-slate-800/80 border-t border-gray-200 dark:border-slate-700 flex-1 overflow-y-auto max-h-[40vh] min-h-[200px] flex flex-col gap-2" id="search-results-container">
+                    <div class="text-center text-xs text-gray-500 dark:text-gray-400 py-8">Ketik kata kunci atau atur tanggal untuk memfilter riwayat.</div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- SCRIPT UTAMA JAVASCRIPT -->
+    <script>
+        const GAS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbwx7Nm06waCKk1IZr9nacfe7qOUDMOxsb5STNyn3AiFO5L2rd9SGC6lCPVLPqxDLDuzTA/exec';
+
+        // --- KONFIGURASI TEMA ---
+        function initTheme() {
+            const savedTheme = localStorage.getItem('presensi_theme');
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+                document.documentElement.classList.add('dark');
+                document.getElementById('theme-icon-light').classList.remove('hidden');
+                document.getElementById('theme-icon-dark').classList.add('hidden');
+            } else {
+                document.getElementById('theme-icon-light').classList.add('hidden');
+                document.getElementById('theme-icon-dark').classList.remove('hidden');
+            }
+        }
+
+        function toggleTheme() {
+            const html = document.documentElement;
+            html.classList.toggle('dark');
+            const isDark = html.classList.contains('dark');
+            localStorage.setItem('presensi_theme', isDark ? 'dark' : 'light');
+            
+            if (isDark) {
+                document.getElementById('theme-icon-light').classList.remove('hidden');
+                document.getElementById('theme-icon-dark').classList.add('hidden');
+            } else {
+                document.getElementById('theme-icon-light').classList.add('hidden');
+                document.getElementById('theme-icon-dark').classList.remove('hidden');
+            }
+        }
+
+        // --- MANAJEMEN LOCALSTORAGE (SIMPAN DATA KETIKAN) ---
+        function saveDraft() {
+            const draftData = {
+                namaLengkap: document.getElementById('nama-lengkap').value,
+                nim: document.getElementById('angka-input').value,
+                mataKuliah: document.getElementById('mata-pelajaran').value
+            };
+            localStorage.setItem('pai_b_form_draft', JSON.stringify(draftData));
+        }
+
+        function loadDraft() {
+            const savedDraft = localStorage.getItem('pai_b_form_draft');
+            if (savedDraft) {
+                const data = JSON.parse(savedDraft);
+                document.getElementById('nama-lengkap').value = data.namaLengkap || '';
+                document.getElementById('angka-input').value = data.nim || '';
+                document.getElementById('mata-pelajaran').value = data.mataKuliah || '';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initTheme();
+            loadDraft(); 
+            
+            const MAX_DOC_SIZE = 50 * 1024 * 1024; 
+            const MAX_VIDEO_SIZE = 150 * 1024 * 1024; 
+
+            let filesMap = new Map(); 
+            let isUploadingProcess = false;
+            let historyData = []; 
+
+            document.getElementById('nama-lengkap').addEventListener('input', saveDraft);
+            document.getElementById('angka-input').addEventListener('input', saveDraft);
+            document.getElementById('mata-pelajaran').addEventListener('input', saveDraft);
+
+            const dropzone = document.getElementById('dropzone');
+            const dropzoneIcon = document.getElementById('dropzone-icon');
+            const fileInput = document.getElementById('file-input');
+            const errorContainer = document.getElementById('error-container');
+            const errorMessage = document.getElementById('error-message');
+            
+            const namaLengkapInput = document.getElementById('nama-lengkap');
+            const angkaInput = document.getElementById('angka-input');
+            const mataPelajaranInput = document.getElementById('mata-pelajaran');
+            
+            const historyContainer = document.getElementById('history-container');
+            const refreshHistoryBtn = document.getElementById('refresh-history-btn');
+            const openSearchBtn = document.getElementById('open-search-btn');
+            
+            const searchModal = document.getElementById('search-modal');
+            const searchModalPanel = document.getElementById('search-modal-panel');
+            const searchKeywordInput = document.getElementById('search-keyword');
+            const searchStartDate = document.getElementById('search-start-date');
+            const searchEndDate = document.getElementById('search-end-date');
+            const searchResultsContainer = document.getElementById('search-results-container');
+            
+            const fileManager = document.getElementById('file-manager');
+            const fileListContainer = document.getElementById('file-list');
+            
+            const successMessage = document.getElementById('success-message');
+            const addMoreBtn = document.getElementById('add-more-btn');
+            const uploadBtn = document.getElementById('upload-all-btn');
+            const resetBtn = document.getElementById('reset-all-btn');
+            const uploadBtnText = document.getElementById('upload-btn-text');
+            const uploadIcon = document.getElementById('upload-icon');
+            const uploadSpinner = document.getElementById('upload-spinner');
+
+            const formatBytes = (bytes, decimals = 2) => {
+                if (bytes === 0) return '0 Bytes';
+                const k = 1024;
+                const dm = decimals < 0 ? 0 : decimals;
+                const sizes = ['B', 'KB', 'MB', 'GB'];
+                const i = Math.floor(Math.log(bytes) / Math.log(k));
+                return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+            };
+
+            const showError = (msg) => {
+                errorMessage.textContent = msg;
+                errorContainer.classList.remove('hidden');
+            };
+            const hideError = () => errorContainer.classList.add('hidden');
+
+            const formatDateID = (dateString) => {
+                if(!dateString) return '-';
+                const date = new Date(dateString);
+                if(isNaN(date.getTime())) return dateString;
+                return date.toLocaleString('id-ID', {
+                    day: '2-digit', month: 'short', year: 'numeric',
+                    hour: '2-digit', minute: '2-digit'
+                }).replace(/\./g, ':');
+            };
+
+            const renderHistoryItems = (dataList, container) => {
+                container.innerHTML = '';
+                if (!dataList || dataList.length === 0) {
+                    container.innerHTML = '<div class="text-center text-xs text-gray-500 dark:text-gray-400 py-6">Tidak ada data ditemukan.</div>';
+                    return;
+                }
+
+                dataList.forEach((item, index) => {
+                    const waktu = item.waktu || item[0]; 
+                    const nama = item.namaLengkap || item[1] || 'Anonim';
+                    const angka = item.angka || item[2] || '-';
+                    const mapel = item.mataPelajaran || item[3] || '-';
+                    const fileName = item.filename || item[4] || 'File Tidak Dikenal';
+                    const fileUrl = item.fileUrl || item[7] || '#';
+
+                    const html = `
+                        <div class="flex items-center justify-between p-2.5 sm:p-3 bg-white dark:bg-slate-700/80 rounded-xl border border-gray-100 dark:border-slate-600 shadow-sm text-left gap-3 hover:bg-gray-50 dark:hover:bg-slate-700 transition" style="animation: blob 0.3s ease-out forwards; animation-delay: ${Math.min(index * 0.05, 0.5)}s">
+                            <div class="flex-1 overflow-hidden min-w-0">
+                                <p class="text-sm font-bold text-gray-800 dark:text-gray-200 truncate" title="${fileName}">${fileName}</p>
+                                <p class="text-[10px] sm:text-xs text-gray-500 dark:text-gray-400 truncate mt-0.5"><span class="font-semibold text-emerald-600 dark:text-emerald-400">${nama} (${angka})</span> • ${mapel}</p>
+                            </div>
+                            <div class="flex flex-col items-end shrink-0">
+                                <span class="text-[9px] sm:text-[10px] text-gray-400 dark:text-gray-500 font-medium">${formatDateID(waktu)}</span>
+                                <a href="${fileUrl}" target="_blank" class="mt-1.5 text-[10px] sm:text-xs bg-emerald-100 hover:bg-emerald-200 dark:bg-emerald-900/50 dark:hover:bg-emerald-800 text-emerald-700 dark:text-emerald-300 px-2.5 py-1 rounded-full transition-colors shadow-sm font-semibold flex items-center gap-1">
+                                    <svg class="w-3 h-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                                    Buka
+                                </a>
+                            </div>
+                        </div>
+                    `;
+                    container.insertAdjacentHTML('beforeend', html);
+                });
+            };
+
+            const loadHistory = async () => {
+                if (GAS_WEB_APP_URL === 'ISI_DENGAN_URL_WEB_APP_GAS_ANDA') {
+                    historyContainer.innerHTML = '<div class="text-center text-xs text-red-500 py-6">Konfigurasi URL Google Apps Script belum diisi.</div>';
+                    return;
+                }
+                
+                historyContainer.innerHTML = '<div class="text-center text-xs text-gray-500 py-6 flex flex-col items-center gap-2"><svg class="animate-spin w-5 h-5 text-emerald-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>Memuat riwayat pengumpulan...</div>';
+
+                try {
+                    const response = await fetch(GAS_WEB_APP_URL + '?action=getHistory');
+                    const result = await response.json();
+                    
+                    if (result.status === 'success') {
+                        historyData = result.data || [];
+                        renderHistoryItems(historyData, historyContainer);
+                        if(!searchModal.classList.contains('hidden')) filterSearch(); 
+                    } else {
+                        throw new Error(result.message);
+                    }
+                } catch (error) {
+                    historyContainer.innerHTML = `<div class="text-center text-xs text-red-500 py-6">Gagal memuat: ${error.message}</div>`;
+                }
+            };
+
+            const filterSearch = () => {
+                const keyword = searchKeywordInput.value.toLowerCase();
+                const startVal = searchStartDate.value;
+                const endVal = searchEndDate.value;
+
+                let filtered = historyData.filter(item => {
+                    const rowText = (item.namaLengkap || item[1] || '') + ' ' + 
+                                    (item.mataPelajaran || item[3] || '') + ' ' + 
+                                    (item.filename || item[4] || '') + ' ' + 
+                                    (item.angka || item[2] || '');
+                    
+                    let matchKeyword = rowText.toLowerCase().includes(keyword);
+                    let matchDate = true;
+
+                    if (item.waktu || item[0]) {
+                        const itemTime = new Date(item.waktu || item[0]).getTime();
+                        if (startVal) {
+                            if (itemTime < new Date(startVal).getTime()) matchDate = false;
+                        }
+                        if (endVal) {
+                            if (itemTime > new Date(endVal).getTime()) matchDate = false;
+                        }
+                    }
+                    return matchKeyword && matchDate;
+                });
+
+                renderHistoryItems(filtered, searchResultsContainer);
+            };
+
+            openSearchBtn.addEventListener('click', () => {
+                searchModal.classList.remove('hidden');
+                setTimeout(() => {
+                    searchModal.classList.remove('opacity-0');
+                    searchModalPanel.classList.remove('scale-95');
+                }, 10);
+                
+                if(searchResultsContainer.children.length === 1 && searchResultsContainer.children[0].textContent.includes('Ketik')) {
+                    renderHistoryItems(historyData, searchResultsContainer);
+                }
+            });
+
+            window.closeSearchModal = () => {
+                searchModal.classList.add('opacity-0');
+                searchModalPanel.classList.add('scale-95');
+                setTimeout(() => searchModal.classList.add('hidden'), 300);
+            };
+
+            searchKeywordInput.addEventListener('input', filterSearch);
+            searchStartDate.addEventListener('change', filterSearch);
+            searchEndDate.addEventListener('change', filterSearch);
+            refreshHistoryBtn.addEventListener('click', loadHistory);
+            
+            if (GAS_WEB_APP_URL !== 'ISI_DENGAN_URL_WEB_APP_GAS_ANDA') {
+                loadHistory();
+            }
+
+            const resetSystem = () => {
+                filesMap.clear();
+                fileInput.value = '';
+                hideError();
+                successMessage.classList.add('hidden');
+                uploadBtn.classList.remove('hidden');
+                addMoreBtn.classList.add('hidden'); 
+                resetBtn.classList.add('hidden');
+                renderUI();
+            };
+
+            const generatePreview = (file) => {
+                if (file.type.startsWith('image/')) {
+                    return `<img src="${URL.createObjectURL(file)}" class="w-10 h-10 sm:w-12 sm:h-12 object-cover rounded-lg border border-gray-200 dark:border-slate-600 shadow-sm" alt="Preview">`;
+                } else if (file.type.startsWith('video/')) {
+                    return `<div class="relative w-10 h-10 sm:w-12 sm:h-12 rounded-lg border border-gray-200 dark:border-slate-600 shadow-sm overflow-hidden bg-black flex items-center justify-center">
+                                <video src="${URL.createObjectURL(file)}#t=0.1" class="absolute w-full h-full object-cover opacity-60" preload="metadata"></video>
+                                <svg class="w-5 h-5 text-white z-10 opacity-80" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M5 3l14 9-14 9V3z"/></svg>
+                            </div>`;
+                } else {
+                    return `<div class="w-10 h-10 sm:w-12 sm:h-12 bg-blue-50 dark:bg-slate-800 text-blue-500 dark:text-blue-400 flex items-center justify-center rounded-lg border border-blue-100 dark:border-slate-600 shadow-sm">
+                                <svg class="w-5 h-5 sm:w-6 sm:h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+                            </div>`;
+                }
+            };
+
+            const renderUI = () => {
+                fileListContainer.innerHTML = '';
+                
+                if (filesMap.size === 0) {
+                    dropzone.classList.remove('hidden');
+                    fileManager.classList.add('hidden');
+                    addMoreBtn.classList.add('hidden');
+                    return;
+                }
+
+                dropzone.classList.add('hidden');
+                fileManager.classList.remove('hidden');
+                addMoreBtn.classList.remove('hidden');
+
+                filesMap.forEach((fileObj, id) => {
+                    const isDone = fileObj.status === 'success';
+                    const isUploading = fileObj.status === 'uploading';
+                    
+                    const item = document.createElement('div');
+                    item.className = `flex flex-col p-3 bg-white/60 dark:bg-slate-700/50 border border-gray-200 dark:border-slate-600 rounded-xl shadow-sm backdrop-blur-sm relative transition-all mb-3`;
+                    item.id = `file-item-${id}`;
+                    
+                    const deleteBtn = (!isDone && !isUploading) ? 
+                        `<button onclick="removeFile('${id}')" class="shrink-0 p-1.5 sm:p-2 text-gray-400 hover:text-red-500 dark:hover:text-red-400 bg-white/50 hover:bg-red-50 dark:bg-slate-800/50 dark:hover:bg-red-900/30 border border-transparent hover:border-red-200 dark:hover:border-red-800 rounded-full transition-all active:scale-95" title="Hapus"><svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>` : '';
+
+                    const previewBtn = `<button onclick="openPreviewModal('${id}')" class="shrink-0 p-1.5 sm:p-2 text-emerald-500 hover:text-emerald-600 dark:text-emerald-400 bg-white/50 hover:bg-emerald-50 dark:bg-slate-800/50 dark:hover:bg-emerald-900/30 border border-transparent hover:border-emerald-200 dark:hover:border-emerald-800 rounded-full transition-all active:scale-95" title="Lihat Pratinjau"><svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg></button>`;
+
+                    let statusTextHTML = isDone ? '<span class="text-emerald-500 font-bold">Terkirim</span>' : (fileObj.status === 'error' ? '<span class="text-red-500 font-bold">Gagal</span>' : (isUploading ? `<span class="text-blue-500 font-bold" id="status-text-${id}">Mengunggah...</span>` : 'Menunggu'));
+
+                    item.innerHTML = `
+                        <div class="flex items-center gap-3 overflow-hidden">
+                            <div class="shrink-0 cursor-pointer hover:opacity-80 transition-opacity" onclick="openPreviewModal('${id}')" title="Lihat Pratinjau">
+                               ${generatePreview(fileObj.file)}
+                            </div>
+                            <div class="flex-1 overflow-hidden cursor-pointer" onclick="openPreviewModal('${id}')" title="Lihat Pratinjau">
+                                <p class="text-sm font-bold text-gray-800 dark:text-gray-100 truncate hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors">${fileObj.file.name}</p>
+                                <p class="text-[10px] sm:text-xs text-gray-500 dark:text-gray-400 font-mono mt-0.5">${formatBytes(fileObj.file.size)} • <span id="status-badge-${id}">${statusTextHTML}</span></p>
+                            </div>
+                            <div class="flex items-center gap-1 shrink-0">
+                                ${previewBtn}
+                                ${deleteBtn}
+                            </div>
+                        </div>
+                        <div id="progress-container-${id}" class="w-full bg-gray-200 dark:bg-slate-600 rounded-full h-1.5 mt-2.5 overflow-hidden ${!isUploading && !isDone ? 'hidden' : ''}">
+                            <div id="progress-bar-${id}" class="h-1.5 rounded-full ${isDone ? 'bg-emerald-500' : 'bg-blue-500'} progress-transition" style="width: ${isDone ? '100%' : '0%'}"></div>
+                        </div>
+                    `;
+                    fileListContainer.appendChild(item);
+                });
+            };
+
+            window.removeFile = (id) => {
+                if(isUploadingProcess) return;
+                filesMap.delete(id);
+                renderUI();
+            };
+
+            window.openPreviewModal = (id) => {
+                const fileObj = filesMap.get(id);
+                if (!fileObj) return;
+
+                const file = fileObj.file;
+                const modal = document.getElementById('preview-modal');
+                const panel = document.getElementById('preview-modal-panel');
+                const title = document.getElementById('preview-modal-title');
+                const content = document.getElementById('preview-modal-content');
+                const fileUrl = URL.createObjectURL(file);
+
+                title.textContent = file.name;
+                content.innerHTML = '<div class="animate-pulse flex items-center justify-center h-full"><div class="w-8 h-8 border-4 border-emerald-500 border-t-transparent rounded-full animate-spin"></div></div>'; 
+                modal.classList.remove('hidden');
+                setTimeout(() => {
+                    modal.classList.remove('opacity-0');
+                    panel.classList.remove('scale-95');
+                }, 10);
+
+                setTimeout(() => {
+                    if (file.type.startsWith('image/')) {
+                        content.innerHTML = `<img src="${fileUrl}" class="max-w-full max-h-[75vh] object-contain rounded-lg shadow-md" alt="${file.name}">`;
+                    } else if (file.type.startsWith('video/')) {
+                        content.innerHTML = `<video src="${fileUrl}" controls class="max-w-full max-h-[75vh] rounded-lg shadow-md w-full bg-black outline-none"></video>`;
+                    } else if (file.type === 'application/pdf') {
+                        content.innerHTML = `<iframe src="${fileUrl}" class="w-full h-[75vh] rounded-lg shadow-md border-0 bg-white"></iframe>`;
+                    } else {
+                        content.innerHTML = `
+                            <div class="text-center flex flex-col items-center justify-center p-8">
+                                <div class="w-20 h-20 sm:w-24 sm:h-24 bg-blue-100 dark:bg-slate-800 text-blue-500 dark:text-blue-400 flex items-center justify-center rounded-3xl mb-5 shadow-inner">
+                                    <svg class="w-10 h-10 sm:w-12 sm:h-12" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+                                </div>
+                                <h4 class="text-lg font-bold text-gray-800 dark:text-gray-200 mb-2">Pratinjau Tidak Tersedia</h4>
+                                <p class="text-sm text-gray-500 dark:text-gray-400 text-center max-w-sm leading-relaxed">Browser tidak dapat menampilkan pratinjau langsung untuk format dokumen ini.</p>
+                            </div>`;
+                    }
+                }, 300);
+            };
+
+            window.closePreviewModal = () => {
+                const modal = document.getElementById('preview-modal');
+                const panel = document.getElementById('preview-modal-panel');
+                const content = document.getElementById('preview-modal-content');
+                modal.classList.add('opacity-0');
+                panel.classList.add('scale-95');
+                setTimeout(() => {
+                    modal.classList.add('hidden');
+                    content.innerHTML = '';
+                }, 300);
+            };
+
+            const readFileAsBase64 = (file) => {
+                return new Promise((resolve, reject) => {
+                    const reader = new FileReader();
+                    reader.onload = () => resolve(reader.result.split(',')[1]);
+                    reader.onerror = error => reject(error);
+                    reader.readAsDataURL(file);
+                });
+            };
+
+            const handleFiles = (files) => {
+                hideError();
+                Array.from(files).forEach(file => {
+                    const isVideo = file.type.startsWith('video/');
+                    if (isVideo && file.size > MAX_VIDEO_SIZE) {
+                        showError(`Ada video yang melampaui 150 MB (${file.name}).`);
+                        return;
+                    } 
+                    if (!isVideo && file.size > MAX_DOC_SIZE) {
+                        showError(`Ada dokumen yang melampaui 50 MB (${file.name}).`);
+                        return;
+                    }
+                    const uniqueId = Date.now().toString(36) + Math.random().toString(36).substr(2);
+                    filesMap.set(uniqueId, { file: file, status: 'pending' });
+                });
+                fileInput.value = ''; 
+                successMessage.classList.add('hidden');
+                uploadBtn.classList.remove('hidden');
+                resetBtn.classList.add('hidden');
+                renderUI();
+            };
+
+            fileInput.addEventListener('change', (e) => handleFiles(e.target.files));
+            dropzone.addEventListener('click', () => fileInput.click());
+            addMoreBtn.addEventListener('click', () => fileInput.click());
+            resetBtn.addEventListener('click', resetSystem);
+
+            dropzone.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                dropzone.classList.add('border-emerald-500', 'bg-emerald-50/80', 'dark:border-emerald-500', 'dark:bg-emerald-900/20');
+                dropzoneIcon.classList.add('scale-110');
+            });
+
+            const removeDragStyle = () => {
+                dropzone.classList.remove('border-emerald-500', 'bg-emerald-50/80', 'dark:border-emerald-500', 'dark:bg-emerald-900/20');
+                dropzoneIcon.classList.remove('scale-110');
+            };
+
+            dropzone.addEventListener('dragleave', (e) => {
+                e.preventDefault();
+                removeDragStyle();
+            });
+
+            dropzone.addEventListener('drop', (e) => {
+                e.preventDefault();
+                removeDragStyle();
+                if (e.dataTransfer.files.length > 0) handleFiles(e.dataTransfer.files);
+            });
+
+            uploadBtn.addEventListener('click', async () => {
+                if (filesMap.size === 0) {
+                    showError("Silakan pilih file yang ingin diunggah terlebih dahulu.");
+                    return;
+                }
+                
+                const namaLengkap = namaLengkapInput.value.trim();
+                const angka = angkaInput.value.trim();
+                const mataPelajaran = mataPelajaranInput.value.trim();
+                
+                if (!namaLengkap || !angka || !mataPelajaran) {
+                    showError("Silakan lengkapi Nama Lengkap, NIM, dan Mata Kuliah terlebih dahulu.");
+                    if (!namaLengkap) namaLengkapInput.focus();
+                    else if (!angka) angkaInput.focus();
+                    else mataPelajaranInput.focus();
+                    return;
+                }
+
+                isUploadingProcess = true;
+                uploadBtn.disabled = true;
+                uploadBtn.classList.add('opacity-70', 'cursor-not-allowed');
+                uploadBtnText.textContent = 'Memproses...';
+                uploadIcon.classList.add('hidden');
+                uploadSpinner.classList.remove('hidden');
+                addMoreBtn.classList.add('opacity-50', 'pointer-events-none');
+                hideError();
+                renderUI();
+
+                for (let [id, fileObj] of filesMap.entries()) {
+                    if (fileObj.status === 'success') continue;
+                    fileObj.status = 'uploading';
+                    
+                    const progBar = document.getElementById(`progress-bar-${id}`);
+                    const statusBadge = document.getElementById(`status-badge-${id}`);
+                    if (document.getElementById(`progress-container-${id}`)) document.getElementById(`progress-container-${id}`).classList.remove('hidden');
+
+                    let progress = 0;
+                    const progressAnim = setInterval(() => {
+                        if (progress < 90) {
+                            progress += Math.random() * 10;
+                            if (progress > 90) progress = 90;
+                            if (progBar) progBar.style.width = `${progress}%`;
+                        }
+                    }, 500);
+
+                    try {
+                        const base64Data = await readFileAsBase64(fileObj.file);
+                        const formData = new URLSearchParams();
+                        formData.append('data', base64Data);
+                        formData.append('filename', fileObj.file.name);
+                        formData.append('mimeType', fileObj.file.type);
+                        formData.append('size', fileObj.file.size);
+                        formData.append('namaLengkap', namaLengkap);
+                        formData.append('angka', angka);
+                        formData.append('mataPelajaran', mataPelajaran);
+
+                        const response = await fetch(GAS_WEB_APP_URL, { method: 'POST', body: formData });
+                        const result = await response.json();
+                        clearInterval(progressAnim);
+                        
+                        if (result.status === 'success') {
+                            fileObj.status = 'success';
+                            if (progBar) {
+                                progBar.style.width = `100%`;
+                                progBar.classList.replace('bg-blue-500', 'bg-emerald-500');
+                            }
+                            if (statusBadge) statusBadge.innerHTML = '<span class="text-emerald-500 font-bold">Terkirim</span>';
+                        } else throw new Error(result.message || "Gagal mengunggah");
+                    } catch (error) {
+                        clearInterval(progressAnim);
+                        fileObj.status = 'error';
+                        showError(`Gagal pada file "${fileObj.file.name}": ${error.message}`);
+                        if (statusBadge) statusBadge.innerHTML = '<span class="text-red-500 font-bold">Gagal</span>';
+                    }
+                }
+
+                isUploadingProcess = false;
+                uploadBtn.disabled = false;
+                uploadBtn.classList.remove('opacity-70', 'cursor-not-allowed');
+                uploadBtnText.textContent = 'Kirim Ulang';
+                uploadIcon.classList.remove('hidden');
+                uploadSpinner.classList.add('hidden');
+                addMoreBtn.classList.remove('opacity-50', 'pointer-events-none');
+                
+                const allSuccess = Array.from(filesMap.values()).every(f => f.status === 'success');
+                if (allSuccess) {
+                    successMessage.classList.remove('hidden');
+                    uploadBtn.classList.add('hidden');
+                    addMoreBtn.classList.add('hidden');
+                    resetBtn.classList.remove('hidden');
+                    resetBtn.classList.add('flex');
+                    loadHistory();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
